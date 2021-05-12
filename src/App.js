@@ -7,7 +7,7 @@ import { DefaultButton } from '@fluentui/react/lib/Button';
 import { Image, IImageProps } from '@fluentui/react/lib/Image';
 import { Toggle } from '@fluentui/react/lib/Toggle';
 import * as moment  from 'moment';
-import validator from 'validator'
+import validator from 'validator';
 
 const stackItemStyles: IStackItemStyles = {
   root: {
@@ -43,7 +43,7 @@ const input: IStackItemStyles = {
 };
 
 const imageProps: Partial<IImageProps> = {
-  src: 'https://www.cleverlance.com/Style%20Library/Images/clv/cleverlance-logo.png'
+  src: 'https://upload.wikimedia.org/wikipedia/commons/5/59/Logo-Logo.svg'
 };
 
 var convertedJsonValue;
@@ -81,23 +81,28 @@ class App extends React.Component {
       }
   
       this.state.jsonValue = JSON.stringify(vals);
+
+      this.setState({ 
+        firstName: '',
+        lastName: '',
+        email: '',
+        birthDay: moment().format('YYYY-MM-DD'),
+        react: true
+      });
+
+      alert('Hodnoty převedeny do JSON formátu.');
     }
     else {
       alert('Prosím zadejte validní e-mail.');
     }
   }
 
-  chbChange = (ev: React.MouseEvent<HTMLElement>, checked?: boolean) => {
-    this.state.react = checked;
-  }
-
   btnLoad = (event) => {
     const jsonValue = this.jsonValue.value;
 
-    if (validator.isJSON) {
-      try {
+    if (validator.isJSON(jsonValue)) {
+      if (this.jsonValue.value.includes("firstName") && this.jsonValue.value.includes("lastName") && this.jsonValue.value.includes("email") && this.jsonValue.value.includes("birthDay") && this.jsonValue.value.includes("react")) {
         const loadedData = JSON.parse(jsonValue);
-  
         this.setState({
           firstName: loadedData['firstName'],
           lastName: loadedData['lastName'],
@@ -106,7 +111,7 @@ class App extends React.Component {
           react: loadedData['react']
         });
       }
-      catch {
+      else {
         alert('Prosím zadejte validní JSON údaje.');
       }
     }
@@ -118,11 +123,12 @@ class App extends React.Component {
   render() {
     return (
       <div className="App">
-        <Stack horizontal horizontalAlign="space-around" style={header} >
+        <Stack  style={header} >
           <Stack.Item align="start" style={headerItem}>
             <Image
               {...imageProps}
               alt="Logo"
+              height='50px'
             />
           </Stack.Item>
           <Stack.Item align="center" style={headerItem} >
@@ -147,7 +153,7 @@ class App extends React.Component {
         </Stack>
         <Stack horizontal>
           <Stack.Item grow={5} styles={stackItemStyles}>
-            <Toggle label="React" defaultChecked onText="Yes" offText="No" value={this.state.react} onChange={this.chbChange} />
+            <Toggle label="React" defaultChecked onText="Yes" offText="No" checked={this.state.react} onChange={e => this.setState({react: !this.state.react})} />
           </Stack.Item>
         </Stack>
         <Stack horizontal>
