@@ -1,6 +1,6 @@
 import './App.css';
 import * as React from 'react';
-import { Checkbox, DatePicker, DefaultPalette, Stack, IStackItemStyles, Autofill } from '@fluentui/react';
+import { DatePicker, DefaultPalette, Stack, IStackItemStyles, Autofill } from '@fluentui/react';
 import { Text } from '@fluentui/react/lib/Text';
 import { TextField } from '@fluentui/react/lib/TextField';
 import { DefaultButton } from '@fluentui/react/lib/Button';
@@ -49,6 +49,7 @@ const imageProps: Partial<IImageProps> = {
 var convertedJsonValue;
 
 class App extends React.Component {
+
   state = {
     firstName: '',
     lastName: '',
